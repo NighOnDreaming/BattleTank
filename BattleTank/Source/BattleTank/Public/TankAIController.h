@@ -1,4 +1,6 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright James Dix
+// Nigh On Dreaming
+// 2017
 
 #pragma once
 
@@ -21,5 +23,10 @@ protected:
 private:
 	virtual void BeginPlay() override;
 
+	virtual void SetPawn(APawn *InPawn) override;
+
 	virtual void Tick(float DeltaSeconds) override;	
+
+	UFUNCTION()
+	void OnPossessedTankDeath();
 };

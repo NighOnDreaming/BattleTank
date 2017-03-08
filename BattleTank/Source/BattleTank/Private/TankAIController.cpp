@@ -1,14 +1,35 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright James Dix
+// Nigh On Dreaming
+// 2017
 
 #include "BattleTank.h"
 #include "TankAimingComponent.h"
 #include "TankAIController.h"
-// Depends on movement component via pathfinding system
+#include "Tank.h" // to implement OnDeath
 
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
 }
+
+void ATankAIController::SetPawn(APawn *InPawn)
+{
+	Super::SetPawn(InPawn);
+	if (InPawn) {
+		auto PossessedTank = Cast<ATank>(InPawn);
+		if (!ensure(PossessedTank)) { return; }
+		
+		// subscribe local method to tank's death event
+		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankAIController::OnPossessedTankDeath);
+	}
+}
+
+void ATankAIController::OnPossessedTankDeath()
+{
+	if (!ensure(GetPawn())) { return; } // TODO remove if ensure passes
+	GetPawn()->DetachFromControllerPendingDestroy();
+}
+
 
 // Called every frame
 void ATankAIController::Tick(float DeltaTime)
@@ -28,5 +49,5 @@ void ATankAIController::Tick(float DeltaTime)
 	AimingComponent->AimAt(PlayerTank->GetActorLocation());
 
 	if (AimingComponent->GetFiringState() == EFiringState::Locked)
-		AimingComponent->Fire(); // TODO limit firing rate
+		AimingComponent->Fire();
 }

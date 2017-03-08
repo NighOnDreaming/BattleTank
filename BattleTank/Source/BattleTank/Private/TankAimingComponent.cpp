@@ -1,4 +1,6 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright James Dix
+// Nigh On Dreaming
+// 2017
 
 #include "BattleTank.h"
 #include "TankBarrel.h"

@@ -1,4 +1,6 @@
-// Copyright EmbraceIT Ltd.
+// Copyright James Dix
+// Nigh On Dreaming
+// 2017
 
 #include "BattleTank.h"
 #include "TankTrack.h"
